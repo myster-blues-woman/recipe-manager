@@ -1,60 +1,222 @@
-# recipe-manager
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+# Quarkus Recipe Manager
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## 📌 Projektübersicht
 
-## Running the application in dev mode
+Dies ist eine **Rezeptverwaltungs-API** basierend auf **Quarkus** und **MongoDB** mit Panache. Die Anwendung ermöglicht das **Erstellen, Bearbeiten, Anzeigen und Löschen von Rezepten**, wobei Benutzer Rezepte speichern und verwalten können.
 
-You can run your application in dev mode that enables live coding using:
+## 📂 Projektstruktur
 
-```shell script
+```
+recipe-manager/
+│-- src/
+│   ├── main/
+│   │   ├── java/ch/hftm/nosql/workspace/entity/  # Datenbank-Entities
+│   │   │   ├── User.java
+│   │   │   ├── Recipe.java
+│   │   │   ├── Ingredient.java
+│   │   ├── java/ch/hftm/nosql/workspace/resource/  # REST API Endpunkte
+│   │   │   ├── UserResource.java
+│   │   │   ├── RecipeResource.java
+│-- src/main/resources/application.properties  # MongoDB Konfiguration
+│-- pom.xml  # Maven Dependencies
+
+```
+
+## ⚙️ Installation & Setup
+
+### 1️⃣ **Projekt klonen und Abhängigkeiten installieren**
+
+```sh
+git clone <repository-url>
+cd recipe-manager
+./mvnw install
+
+```
+
+### 2️⃣ **MongoDB Konfiguration**
+
+Füge die MongoDB-Verbindungsdetails in `src/main/resources/application.properties` hinzu:
+
+```properties
+quarkus.mongodb.connection-string=mongodb+srv://admin:<DEIN_PASSWORD>@cluster0.u8hde.mongodb.net/
+quarkus.mongodb.database=recipeDB
+
+```
+
+🔹 **Hinweis:** Ersetze `<DEIN_PASSWORD>` mit deinem MongoDB-Atlas-Passwort.
+
+### 3️⃣ **Anwendung starten**
+
+```sh
 ./mvnw quarkus:dev
+
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+----------
 
-## Packaging and running the application
+## 📡 API Endpunkte
 
-The application can be packaged using:
+### 🔹 **Benutzer-Endpoints (`/users`)**
 
-```shell script
+Methode
+
+Endpoint
+
+Beschreibung
+
+`GET`
+
+`/users`
+
+Alle Benutzer abrufen
+
+`POST`
+
+`/users`
+
+Neuen Benutzer anlegen
+
+**🔹 Rezept-Endpoints (`/recipes`)**
+
+Methode
+
+Endpoint
+
+Beschreibung
+
+`GET`
+
+`/recipes`
+
+Alle Rezepte abrufen
+
+`POST`
+
+`/recipes`
+
+Neues Rezept erstellen
+
+`GET`
+
+`/recipes/{id}`
+
+Einzelnes Rezept abrufen
+
+`PUT`
+
+`/recipes/{id}`
+
+Rezept aktualisieren
+
+`DELETE`
+
+`/recipes/{id}`
+
+Rezept löschen
+
+----------
+
+## 🛠 Beispielanfragen (cURL)
+
+### **➕ Benutzer erstellen**
+
+```sh
+curl -X POST http://localhost:8080/users \
+     -H "Content-Type: application/json" \
+     -d '{"name": "Max Mustermann", "email": "max@example.com"}'
+
+```
+
+### **➕ Rezept erstellen**
+
+```sh
+curl -X POST http://localhost:8080/recipes \
+     -H "Content-Type: application/json" \
+     -d '{
+        "title": "Pasta Carbonara",
+        "ingredients": [
+            {"name": "Spaghetti", "amount": "200g"},
+            {"name": "Eier", "amount": "2 Stück"},
+            {"name": "Parmesan", "amount": "50g"}
+        ],
+        "instructions": "Alles vermischen und genießen!",
+        "authorId": "<USER_ID>"
+     }'
+
+```
+
+**⚠️ Wichtig:** Ersetze `<USER_ID>` mit einer gültigen Benutzer-ID.
+
+### **📋 Alle Rezepte abrufen**
+
+```sh
+curl http://localhost:8080/recipes
+
+```
+
+### **🔄 Rezept aktualisieren**
+
+```sh
+curl -X PUT http://localhost:8080/recipes/<RECIPE_ID> \
+     -H "Content-Type: application/json" \
+     -d '{
+        "title": "Pasta Carbonara (Updated)",
+        "ingredients": [
+            {"name": "Spaghetti", "amount": "250g"},
+            {"name": "Eier", "amount": "3 Stück"},
+            {"name": "Parmesan", "amount": "60g"},
+            {"name": "Speck", "amount": "100g"}
+        ],
+        "instructions": "Neues Rezept mit mehr Zutaten."
+     }'
+
+```
+
+### **🗑 Rezept löschen**
+
+```sh
+curl -X DELETE http://localhost:8080/recipes/<RECIPE_ID>
+
+```
+
+----------
+
+## 🚀 Deployment
+
+Falls du das Projekt als JAR-Datei deployen möchtest:
+
+```sh
 ./mvnw package
+java -jar target/quarkus-app/quarkus-run.jar
+
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+----------
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+## 🛠 Nützliche MongoDB-Befehle
 
-If you want to build an _über-jar_, execute the following command:
+Falls du direkt in der MongoDB-CLI arbeiten möchtest, kannst du dich mit `mongosh` verbinden:
 
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+```sh
+mongosh "mongodb+srv://admin:<DEIN_PASSWORD>@cluster0.u8hde.mongodb.net/"
+
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+**Befehle zur Überprüfung:**
 
-## Creating a native executable
+```sh
+show dbs                 # Zeigt alle Datenbanken
+use recipeDB             # Wechselt zur Datenbank
+show collections         # Zeigt alle Collections
 
-You can create a native executable using:
-
-```shell script
-./mvnw package -Dnative
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+----------
 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
+## 🎯 Fazit
 
-You can then execute your native executable with: `./target/recipe-manager-1.0.0-SNAPSHOT-runner`
+🔹 **Quarkus + MongoDB mit Panache** für einfache Abfragen 🔹 **REST API mit CRUD-Funktionalität** für Benutzer & Rezepte 🔹 **Automatische MongoDB-Collection-Erstellung** durch Panache
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Related Guides
-
-- MongoDB with Panache ([guide](https://quarkus.io/guides/mongodb-panache)): Simplify your persistence code for MongoDB via the active record or the repository pattern
-- RESTEasy Classic ([guide](https://quarkus.io/guides/resteasy)): REST endpoint framework implementing Jakarta REST and more
-- Reactive Routes ([guide](https://quarkus.io/guides/reactive-routes)): REST framework offering the route model to define non blocking endpoints
+Falls du Fragen hast oder eine neue Funktion brauchst, melde dich! 🚀😊
+<Table  {field}  />
