@@ -1,11 +1,11 @@
 
 # Quarkus Recipe Manager
 
-## 📌 Projektübersicht
+## Projektübersicht
 
 Dies ist eine **Rezeptverwaltungs-API** basierend auf **Quarkus** und **MongoDB** mit Panache. Die Anwendung ermöglicht das **Erstellen, Bearbeiten, Anzeigen und Löschen von Rezepten**, wobei Benutzer Rezepte speichern und verwalten können.
 
-## 📂 Projektstruktur
+## Projektstruktur
 
 ```
 recipe-manager/
@@ -23,9 +23,9 @@ recipe-manager/
 
 ```
 
-## ⚙️ Installation & Setup
+## Installation & Setup
 
-### 1️⃣ **Projekt klonen und Abhängigkeiten installieren**
+### **Projekt klonen und Abhängigkeiten installieren**
 
 ```sh
 git clone <repository-url>
@@ -34,7 +34,7 @@ cd recipe-manager
 
 ```
 
-### 2️⃣ **MongoDB Konfiguration**
+###  **MongoDB Konfiguration**
 
 Füge die MongoDB-Verbindungsdetails in `src/main/resources/application.properties` hinzu:
 
@@ -46,7 +46,7 @@ quarkus.mongodb.database=recipeDB
 
 🔹 **Hinweis:** Ersetze `<DEIN_PASSWORD>` mit deinem MongoDB-Atlas-Passwort.
 
-### 3️⃣ **Anwendung starten**
+### **Anwendung starten**
 
 ```sh
 ./mvnw quarkus:dev
@@ -119,7 +119,7 @@ Rezept löschen
 
 ## 🛠 Beispielanfragen (cURL)
 
-### **➕ Benutzer erstellen**
+### **Benutzer erstellen**
 
 ```sh
 curl -X POST http://localhost:8080/users \
@@ -146,16 +146,16 @@ curl -X POST http://localhost:8080/recipes \
 
 ```
 
-**⚠️ Wichtig:** Ersetze `<USER_ID>` mit einer gültigen Benutzer-ID.
+**Wichtig:** Ersetze `<USER_ID>` mit einer gültigen Benutzer-ID.
 
-### **📋 Alle Rezepte abrufen**
+### ** Alle Rezepte abrufen**
 
 ```sh
 curl http://localhost:8080/recipes
 
 ```
 
-### **🔄 Rezept aktualisieren**
+### ** Rezept aktualisieren**
 
 ```sh
 curl -X PUT http://localhost:8080/recipes/<RECIPE_ID> \
@@ -182,7 +182,7 @@ curl -X DELETE http://localhost:8080/recipes/<RECIPE_ID>
 
 ----------
 
-## 🚀 Deployment
+## Deployment
 
 Falls du das Projekt als JAR-Datei deployen möchtest:
 
@@ -218,5 +218,4 @@ show collections         # Zeigt alle Collections
 
 🔹 **Quarkus + MongoDB mit Panache** für einfache Abfragen 🔹 **REST API mit CRUD-Funktionalität** für Benutzer & Rezepte 🔹 **Automatische MongoDB-Collection-Erstellung** durch Panache
 
-Falls du Fragen hast oder eine neue Funktion brauchst, melde dich! 🚀😊
 <Table  {field}  />
